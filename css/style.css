@@ -1,0 +1,184 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  color: #1e293b;
+}
+
+.wrapper {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.todo-container {
+  background-color: #f8fafc;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 25px;
+  color: #0f172a;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.stat {
+  flex: 1;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.stat h4 {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #64748b;
+}
+
+.stat.total p { color: #7c3aed; }
+.stat.completed p { color: #10b981; }
+.stat.pending p { color: #f59e0b; }
+.stat.progress p { color: #0ea5e9; }
+
+.stat p {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="date"] {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1.5px solid #e2e8f0;
+  font-size: 14px;
+}
+
+#add-btn {
+  background-color: #ec4899;
+  color: white;
+  font-size: 20px;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#add-btn:hover {
+  background-color: #db2777;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filter-bar input {
+  flex: 2;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+}
+
+.filter-bar button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+#filter-btn {
+  background-color: #f1f5f9;
+}
+
+#sort-btn {
+  background-color: #f1f5f9;
+}
+
+#delete-all-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+#delete-all-btn:hover {
+  background-color: #dc2626;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  text-align: left;
+  padding: 14px 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+.actions button {
+  margin-right: 5px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.actions .done {
+  background-color: #10b981;
+  color: white;
+}
+
+.actions .undo {
+  background-color: #0ea5e9;
+  color: white;
+}
+
+.actions .delete {
+  background-color: #ef4444;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .stats-container, form, .filter-bar {
+    flex-direction: column;
+  }
+}

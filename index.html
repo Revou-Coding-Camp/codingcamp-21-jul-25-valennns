@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Todo App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="todo-container">
+      <h1>Todo List</h1>
+
+      <div class="stats-container">
+        <div class="stat total">
+          <h4>Total Tasks</h4>
+          <p id="total-tasks">0</p>
+        </div>
+        <div class="stat completed">
+          <h4>Completed</h4>
+          <p id="completed-tasks">0</p>
+        </div>
+        <div class="stat pending">
+          <h4>Pending</h4>
+          <p id="pending-tasks">0</p>
+        </div>
+        <div class="stat progress">
+          <h4>Progress</h4>
+          <p id="progress-percent">0%</p>
+        </div>
+      </div>
+
+      <form id="todo-form">
+        <input type="text" id="task-input" placeholder="Add a todo" />
+        <input type="date" id="date-input" />
+        <button type="submit" id="add-btn">＋</button>
+      </form>
+
+      <div class="filter-bar">
+        <input type="text" id="search-input" placeholder="Search tasks (Ctrl+F)" />
+        <button id="filter-btn">Filter</button>
+        <button id="sort-btn">⇅ Sort</button>
+        <button id="delete-all-btn">🗑 Delete All</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="todo-list">
+          <tr><td colspan="4" style="text-align:center;">No task found</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
