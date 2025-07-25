@@ -1,107 +1,101 @@
-const form = document.getElementById("todo-form");
-const taskInput = document.getElementById("task-input");
-const dateInput = document.getElementById("date-input");
-const todoList = document.getElementById("todo-list");
-const deleteAllBtn = document.getElementById("delete-all-btn");
-const searchInput = document.getElementById("search-input");
-const sortBtn = document.getElementById("sort-btn");
+let tasks = [];
 
-let todos = [];
+function addTask() {
+  const input = document.getElementById("taskInput");
+  const date = document.getElementById("dateInput");
+  if (input.value.trim() === "") return;
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const task = taskInput.value.trim();
-  const date = dateInput.value;
+  tasks.push({
+    name: input.value,
+    date: date.value || "-",
+    completed: false,
+  });
 
-  if (task === "" || date === "") {
-    alert("Please fill in both fields!");
-    return;
-  }
+  input.value = "";
+  date.value = "";
+  renderTasks();
+}
 
-  const todo = {
-    id: Date.now(),
-    task,
-    date,
-    status: "Pending"
-  };
+function renderTasks() {
+  const list = document.getElementById("taskList");
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const status = document.getElementById("statusFilter").value;
 
-  todos.push(todo);
-  renderTodos();
-  form.reset();
-});
+  const filtered = tasks.filter(task => {
+    const matchesSearch = task.name.toLowerCase().includes(search);
+    const matchesStatus =
+      status === "all" ||
+      (status === "completed" && task.completed) ||
+      (status === "pending" && !task.completed);
+    return matchesSearch && matchesStatus;
+  });
 
-function renderTodos(list = todos) {
-  todoList.innerHTML = "";
+  list.innerHTML = "";
 
-  if (list.length === 0) {
-    todoList.innerHTML = `<tr><td colspan="4" style="text-align:center;">No task found</td></tr>`;
+  if (filtered.length === 0) {
+    list.innerHTML = "<tr><td colspan='4'>No task found</td></tr>";
     updateStats();
     return;
   }
 
-  list.forEach(todo => {
+  filtered.forEach((task, index) => {
     const row = document.createElement("tr");
+
     row.innerHTML = `
-      <td>${todo.task}</td>
-      <td>${todo.date}</td>
-      <td>${todo.status}</td>
-      <td class="actions">
-        <button class="${todo.status === 'Pending' ? 'done' : 'undo'}" onclick="toggleStatus(${todo.id})">
-          ${todo.status === "Pending" ? "✔ Done" : "↩ Undo"}
+      <td>${task.name}</td>
+      <td>${task.date}</td>
+      <td class="${task.completed ? "status-done" : "status-pending"}">
+        ${task.completed ? "Completed" : "Pending"}
+      </td>
+      <td>
+        <button class="action-btn complete-btn" onclick="toggleComplete(${index})">
+          ✓
         </button>
-        <button class="delete" onclick="deleteTodo(${todo.id})">🗑</button>
+        <button class="action-btn delete-btn-small" onclick="deleteTask(${index})">
+          🗑
+        </button>
       </td>
     `;
-    todoList.appendChild(row);
+    list.appendChild(row);
   });
 
   updateStats();
 }
 
-function toggleStatus(id) {
-  todos = todos.map(todo =>
-    todo.id === id
-      ? { ...todo, status: todo.status === "Pending" ? "Completed" : "Pending" }
-      : todo
-  );
-  renderTodos();
+function toggleComplete(index) {
+  tasks[index].completed = !tasks[index].completed;
+  renderTasks();
 }
 
-function deleteTodo(id) {
-  todos = todos.filter(todo => todo.id !== id);
-  renderTodos();
+function deleteTask(index) {
+  tasks.splice(index, 1);
+  renderTasks();
 }
 
-deleteAllBtn.addEventListener("click", () => {
-  if (confirm("Are you sure you want to delete all tasks?")) {
-    todos = [];
-    renderTodos();
+function deleteAllTasks() {
+  if (confirm("Delete all tasks?")) {
+    tasks = [];
+    renderTasks();
   }
-});
+}
+
+function sortTasksByDate() {
+  tasks.sort((a, b) => new Date(a.date) - new Date(b.date));
+  renderTasks();
+}
 
 function updateStats() {
-  const total = todos.length;
-  const completed = todos.filter(t => t.status === "Completed").length;
+  const total = tasks.length;
+  const completed = tasks.filter(t => t.completed).length;
   const pending = total - completed;
   const progress = total === 0 ? 0 : Math.round((completed / total) * 100);
 
-  document.getElementById("total-tasks").textContent = total;
-  document.getElementById("completed-tasks").textContent = completed;
-  document.getElementById("pending-tasks").textContent = pending;
-  document.getElementById("progress-percent").textContent = `${progress}%`;
+  document.getElementById("totalCount").innerText = total;
+  document.getElementById("completedCount").innerText = completed;
+  document.getElementById("pendingCount").innerText = pending;
+  document.getElementById("progressPercent").innerText = progress + "%";
 }
 
-searchInput.addEventListener("input", () => {
-  const query = searchInput.value.toLowerCase();
-  const filtered = todos.filter(todo =>
-    todo.task.toLowerCase().includes(query)
-  );
-  renderTodos(filtered);
-});
+// Jalankan render saat pengguna mengetik di kolom search
+document.getElementById("searchInput").addEventListener("input", renderTasks);
 
-sortBtn.addEventListener("click", () => {
-  todos.sort((a, b) => new Date(a.date) - new Date(b.date));
-  renderTodos();
-});
-
-renderTodos();
